@@ -16,10 +16,11 @@ use App\Http\Controllers\Api\SubjectController;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-
+// Public routes (no authentication required)
 Route::post('login', [AuthController::class, 'login']);
-Route::post('logout', [AuthController::class,'logout'])->name('logout');
-Route::get('subject', [SubjectController::class,'index'])->name('subject.index');
+Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+
+// Routes that require authentication
+Route::middleware('auth:api')->group(function () {
+    Route::get('subject', [SubjectController::class, 'index'])->name('subject.index');
+});

@@ -14,5 +14,11 @@ use Illuminate\Support\Facades\Broadcast;
 */
 
 Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
-    return (int) $user->id === (int) $id;
+    // Pastikan pengguna yang sedang aktif memiliki ID yang sama
+    if ((int) $user->id === (int) $id) {
+        return true; // Pengguna dapat mendengarkan channel ini
+    }
+
+    // Jika ID tidak cocok, kembalikan false untuk menolak akses
+    return false;
 });
